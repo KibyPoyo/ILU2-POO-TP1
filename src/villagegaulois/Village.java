@@ -82,7 +82,7 @@ public class Village {
 		if (etalLibreNumero == -1) {
 			affichage.append("Il n'y a plus d'etals disponnibles.\n");
 		} else {
-			affichage.append("Le vendeur " + vendeur.getNom() + " vend des " + produit + " à l'étal n°" + (etalLibreNumero+1) + ".\n");
+			affichage.append("Le vendeur " + vendeur.getNom() + " vend des " + produit + " a l'etal nÂ°" + (etalLibreNumero+1) + ".\n");
 			marche.utiliserEtal(etalLibreNumero,vendeur,produit,nbProduit);
 		}
 		return affichage.toString();
@@ -92,9 +92,19 @@ public class Village {
 		return marche.trouverVendeur(gaulois);
 	}
 	
-	public String partirVendeur() {
+	public String partirVendeur(Gaulois vendeur) {
+		String affichage = "";
+		Etal etal = marche.trouverVendeur(vendeur);
+		if (etal != null) {
+			affichage = etal.libererEtal();
+		}
+		return affichage;
+	}
+	
+	public String afficherMarche() {
 		StringBuilder affichage = new StringBuilder();
-		affichage.append("Le vendeur Bonemine quitte son étal, il a vendu 20 fleurs parmi les 20 qu'il/elle voulait vendre.");
+		affichage.append("Le marche du village \"" + this.getNom() + "\" possede plusieurs etals :\n");
+		affichage.append(marche.afficherMarche());
 		return affichage.toString();
 	}
 		
@@ -161,7 +171,7 @@ public class Village {
 				}
 			}
 			if (nbEtalVide != 0) {
-				affichage.append("Il reste " + nbEtalVide + " étals non utilisés dans le marché.\n");
+				affichage.append("Il reste " + nbEtalVide + " etals non utilises dans le marche.\n");
 			}
 			return affichage.toString();
 		}
