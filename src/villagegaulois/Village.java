@@ -24,6 +24,12 @@ public class Village {
 		this.chef = chef;
 	}
 
+	public class VillageSansChefException extends Exception {
+	    public VillageSansChefException(String message) {
+	        super(message);
+	    }
+	}
+	
 	public void ajouterHabitant(Gaulois gaulois) {
 		if (nbVillageois < villageois.length) {
 			villageois[nbVillageois] = gaulois;
@@ -44,7 +50,11 @@ public class Village {
 		return null;
 	}
 
-	public String afficherVillageois() {
+	public String afficherVillageois() throws VillageSansChefException {
+		if (nom == null) {
+            throw new VillageSansChefException("Village sans chef");
+		}
+		
 		StringBuilder chaine = new StringBuilder();
 		if (nbVillageois < 1) {
 			chaine.append("Il n'y a encore aucun habitant au village du chef "
@@ -93,11 +103,8 @@ public class Village {
 	}
 	
 	public String partirVendeur(Gaulois vendeur) {
-		String affichage = "";
 		Etal etal = marche.trouverVendeur(vendeur);
-		if (etal != null) {
-			affichage = etal.libererEtal();
-		}
+		String affichage = etal.libererEtal();
 		return affichage;
 	}
 	
